@@ -5,4 +5,4 @@ class DataSerial(serializers.HyperlinkedModelSerializer):
     many=True
     class Meta:
         model = Data
-        fields = ['_id', 'group', 'lat', 'lon', 'color', 'ang', 'radius']
+        fields = ['group', 'lat', 'lon', 'color', 'ang', 'radius']
