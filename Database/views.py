@@ -24,8 +24,13 @@ def data_List(request):
 @csrf_exempt
 def data_List_Group(request, group):
     if request.method == "GET":
-        print("Yes")
         qset = Data.objects.filter(group=group)
         serial = DataSerial(qset, many=True)
         return JsonResponse(serial.data, safe=False, status=201)
         
+@csrf_exempt
+def data_Latest(request):
+    if request.method == "GET":
+        qset = Data.objects.last()
+        serial = DataSerial(qset)
+        return JsonResponse(serial.data, safe = False, status=201)

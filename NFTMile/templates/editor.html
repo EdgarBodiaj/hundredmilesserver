@@ -17,6 +17,7 @@
             <!-- value="#e66465" -->
             <button type="submit">Submit</button>
         </form>
+        <h2 id="groupInfo">Current Group ID is: 0</h2>
 
         <script>
             const form = document.getElementById("form");
@@ -24,13 +25,26 @@
             const color = document.getElementById("color");
             localStorage.clear();
 
+            init()
+            async function init(){
+                const options = {
+                method: 'GET'
+            };
+            const response = await fetch('/data/latest/',options);
+            const data = await response.json();
+            localStorage.setItem('group', data.group + 1 )
+            document.getElementById('groupInfo').innerHTML = "Current Group ID is : " + localStorage.getItem("group")
+            }
+
+
             form.addEventListener('submit', function(e){
                 e.preventDefault();
-
+                
                 const tixVal = tix.value;
                 const colorVal = color.value;
-                console.log(colorVal)
+                console.log(tixVal)
                 localStorage.setItem('Obj', JSON.stringify({tn: tixVal, bc: colorVal}));
+                console.log(localStorage.getItem("group"))
                 // localStorage.setItem('ticket-number', tixVal);
                 // window.location.href = "graph.html";
             })

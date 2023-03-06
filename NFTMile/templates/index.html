@@ -29,7 +29,7 @@
     <script>
     const map = L.map('map').locate({setView: true, maxZoom: 20});
     const addr = "http://localhost:8000/data/"
-    const grpNum = 3
+    const grpNum = localStorage.getItem("group")
     //Radii definitions
     const diameter = 160934;
     const mileseg = 16093.4;
