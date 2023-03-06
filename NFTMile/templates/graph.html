@@ -1,0 +1,223 @@
+<html>
+  <head>
+    <title> Graph </title>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
+    <script>
+
+let topcolor, bottomcolor;
+let canvasWidth, canvasHeight;
+
+//Const to fetch Background Colour and Ticket Numbers
+const tnbc = JSON.parse(localStorage.getItem('Obj'));
+const pn = localStorage.getItem('participant-number');
+
+function setup() {
+  canvasWidth = 1600;
+  canvasHeight = 1200;
+  createCanvas(canvasWidth, canvasHeight);
+  rectMode(CENTER);
+  noStroke();
+}
+
+function draw() {
+  getData();
+  async function getData() {
+    clear();
+    //Gradient LERP calculations
+    background(255);
+    per = (pn*100)/tnbc.tn;
+    gPer = (per*300)/100;
+    // col = tnbc.bc;
+
+    let gradient = drawingContext.createLinearGradient(width/2, gPer, width/2, height*0.75);
+    gradient.addColorStop(1,color(148, 23, 81));
+    gradient.addColorStop(0,color(86, 193, 255));
+
+    drawingContext.fillStyle = gradient;
+    rect(width/2, height/2, 900, 900);
+
+    const response = await fetch('/api');
+    const data = await response.json();
+
+    let o1 = 5;
+    let o2 = 5;
+    let o3 = 5;
+    let o4 = 5;
+    let o5 = 5;
+    let o6 = 5;
+    let o7 = 5;
+    let o8 = 5;
+    let o9 = 5;
+    let o10 = 5;
+
+    //Fetch data from click events
+    for (item of data){
+      let color = `${item.color}`;
+      let radius = `${item.radius}`;
+      let lat = `${item.lat}`;
+      let lon = `${item.lon}`;
+      let angle = radians(`${item.ang}`);
+      let v = createVector();
+
+      //Ray calculations
+      v.set(radius/2, 0);
+      v.rotate(angle+HALF_PI*3);
+      let x1 = width/2;
+      let y1 = height/2;
+      let x2 = x1 + v.x;
+      let y2 = y1 + v.y;
+
+      //If a point is within the 100 mile radius - i.e., regular rays within radii
+      //Draw rays
+      if(radius < 1000){  
+        stroke(color);
+        strokeWeight(3);
+        line(x1, y1, x2, y2);
+
+        if(color == "null"){  
+        stroke(color);
+        strokeWeight(3);
+        line(x1, y1, x2, y2);
+        }
+      }   
+
+      else {
+        stroke(color);
+        strokeWeight(3);
+        line(x1, y1, x2, y2);
+      }
+      //Draw centre circle
+      fill(tnbc.bc);
+      stroke(tnbc.bc);
+      strokeWeight(3);
+      circle(x1, y1, 20);
+    }
+    //Draw radii
+    for (item of data){
+      let color = `${item.color}`;
+      let radius = `${item.radius}`;
+      let x1 = width/2;
+      let y1 = height/2;
+      
+      if(radius < 1000){  
+        if(color == "#88FA4E"){
+          o1++;
+          let oPer1 = (o1 * 100)/pn; 
+          let xop1 = (oPer1*255)/100;
+
+          noFill();
+          stroke(136,250,78,xop1);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+        else if(color == "#1DB100"){
+          o2++;
+          let oPer2 = (o2 * 100)/pn; 
+          let xop2 = (oPer2*255)/100;
+
+          noFill();
+          stroke(29,177,0,xop2);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+
+        else if(color == "#00FDFF"){
+          o3++;
+          let oPer3 = (o3 * 100)/pn; 
+          let xop3 = (oPer3*255)/100;
+
+          noFill();
+          stroke(0,253,255,xop3);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+
+        else if(color == "#0096FF"){
+          o4++;
+          let oPer4 = (o4 * 100)/pn; 
+          let xop4 = (oPer4*255)/100;
+
+          noFill();
+          stroke(0,150,255,xop4);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+
+        else if(color == "#9437FF"){
+          o5++;
+          let oPer5 = (o5 * 100)/pn; 
+          let xop5 = (oPer5*255)/100;
+
+          noFill();
+          stroke(148,55,255,xop5);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+
+        else if(color == "#942193"){
+          o6++;
+          let oPer6 = (o6 * 100)/pn; 
+          let xop6 = (oPer6*255)/100;
+
+          noFill();
+          stroke(148,33,147,xop6);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+
+        else if(color == "#FF40FF"){
+          o7++;
+          let oPer7 = (o7 * 100)/pn; 
+          let xop7 = (oPer7*255)/100;
+
+          noFill();
+          stroke(255,64,255,xop7);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+
+        else if(color == "#FF2F92"){
+          o8++;
+          let oPer8 = (o8 * 100)/pn; 
+          let xop8 = (oPer8*255)/100;
+
+          noFill();
+          stroke(255,64,255,xop8);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+
+        else if(color == "#FF9300"){
+          o9++;
+          let oPer9 = (o9 * 100)/pn; 
+          let xop9 = (oPer9*255)/100;
+
+          noFill();
+          stroke(255,147,0,xop9);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+
+        else if(color == "#FFFB00"){
+          o10++;
+          let oPer10 = (o10 * 100)/pn; 
+          let xop10 = (oPer10*255)/100;
+
+          noFill();
+          stroke(255,251,0,xop10);
+          strokeWeight(3);
+          circle(x1, y1, radius);
+        }
+      }
+    }
+  }
+  noLoop();
+}
+    </script>
+  </head>
+  <body>
+    <main>
+    </main>
+  </body>
+</html>

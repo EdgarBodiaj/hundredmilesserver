@@ -1,0 +1,224 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://npmcdn.com/leaflet-geometryutil"></script>
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <title> Home </title>
+
+    <style>
+      html, body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <script>
+    const map = L.map('map').locate({setView: true, maxZoom: 20});
+    const addr = "http://localhost:8000/data/"
+    const grpNum = 3
+    //Radii definitions
+    const diameter = 160934;
+    const mileseg = 16093.4;
+    const r0 = mileseg/2;
+    const r1 = diameter - mileseg * 9;
+    const r2 = diameter - mileseg * 8;
+    const r3 = diameter - mileseg * 7;
+    const r4 = diameter - mileseg * 6;
+    const r5 = diameter - mileseg * 5;
+    const r6 = diameter - mileseg * 4;
+    const r7 = diameter - mileseg * 3;
+    const r8 = diameter - mileseg * 2;
+    const r9 = diameter - mileseg;
+    var participant = 1;
+  
+    L.control.locate().addTo(map);
+
+
+    function showLocation(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude
+          globalThis.user = {lat, lon};
+        }
+    
+    if(navigator.geolocation) {
+      console.log("success!");
+      navigator.geolocation.getCurrentPosition(showLocation);
+        } else {
+          alert("Sorry, this browser does not support geolocation!");
+        }
+
+    function plusOne() {
+      //Add up participant numbers
+      const pNum = participant++;
+      console.log(pNum);
+      localStorage.setItem("participant-number", pNum);
+    }
+  
+    function onMapClick(e) {      
+      var locs = {lat: e.latlng.lat, lon: e.latlng.lng};
+      var ang = L.GeometryUtil.angle(map, user, locs);
+      var n = arePointsNear(user, locs, diameter);
+      var c0 = arePointsNear(user, locs, r0);
+      var c1 = arePointsNear(user, locs, r1);
+      var c2 = arePointsNear(user, locs, r2);
+      var c3 = arePointsNear(user, locs, r3);
+      var c4 = arePointsNear(user, locs, r4);
+      var c5 = arePointsNear(user, locs, r5);
+      var c6 = arePointsNear(user, locs, r6);
+      var c7 = arePointsNear(user, locs, r7);
+      var c8 = arePointsNear(user, locs, r8);
+      var c9 = arePointsNear(user, locs, r9);
+      const tnbc = JSON.parse(localStorage.getItem('Obj'));
+      const col = tnbc.bc;
+      console.log(col)
+
+      plusOne();
+      // e.preventDefault();
+      L.marker(e.latlng)
+      .addTo(map);
+    
+      var data = {}
+      var color = ""
+      var radius = 0;
+
+      L.marker(e.latlng)
+        .addTo(map);
+      if (n){
+        if (c0){
+          console.log('inside 5 mile radius');
+          radius = 80;
+          color = "#88FA4E"; 
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+
+        else if (c1){
+          console.log('inside 10 mile radius');
+          radius = 1300;
+          color = col;
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else if (c2){
+          console.log('inside 20 mile radius');
+          radius = 160;
+          color = "#1DB100";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else if (c3){
+          console.log('inside 30 mile radius');
+          radius = 240;
+          color = "#00FDFF";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else if (c4){
+          console.log('inside 40 mile radius');
+          radius = 320;
+          color = "#0096FF";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else if (c5){
+          console.log('inside 50 mile radius');
+          radius = 400;
+          color = "#9437FF";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else if (c6){
+          console.log('inside 60 mile radius');
+          radius = 480;
+          color = "#942193";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else if (c7){
+          console.log('inside 70 mile radius');
+          radius = 560;
+          color = "#FF40FF";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else if (c8){
+          console.log('inside 80 mile radius');
+          radius = 640;
+          color = "#FF2F92";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else if (c9){
+          console.log('inside 90 mile radius');
+          radius = 720;
+          color = "#FF9300";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+        
+        else{
+          console.log('inside 100 mile radius');
+          radius = 800;
+          color = "#FFFB00";
+          data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+        }
+      }
+      
+      else{
+        
+        console.log("outside 100 mile radius");
+        radius = 1000;
+        color = "#522E6E";
+        data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
+      }
+
+      const options = {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      };
+      console.log(data)
+      const response = fetch(addr,options);
+    }
+    map.on('click', onMapClick);
+      
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+      }).addTo(map);
+      
+      //for demos and debugs
+      // var circle = L.circle([52.94951704158299, -1.1707091331481936],{
+      //   color: 'red',
+      //   fillColor: '#f03',
+      //   fillOpacity: 0.1,
+      //   radius: 160934 //100 miles in meters
+      // }).addTo(map);
+      
+      L.control.scale({imperial: true, metric: true}).addTo(map);
+
+      function arePointsNear(checkPoint, centerPoint, m) { // credits to user:69083
+        var km = m/1000;
+        var ky = 40000 / 360;
+        var kx = Math.cos(Math.PI * centerPoint.lat / 180.0) * ky;
+        var dx = Math.abs(centerPoint.lon - checkPoint.lon) * kx;
+        var dy = Math.abs(centerPoint.lat - checkPoint.lat) * ky;
+        return Math.sqrt(dx * dx + dy * dy) <= km;
+      }
+      </script>
+  </body>
+</html>
