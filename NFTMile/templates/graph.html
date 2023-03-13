@@ -11,6 +11,7 @@ let canvasWidth, canvasHeight;
 //Const to fetch Background Colour and Ticket Numbers
 const tnbc = JSON.parse(localStorage.getItem('Obj'));
 const pn = localStorage.getItem('participant-number');
+const addr = "https://future-festivals.mrl.nottingham.ac.uk/100miles/data/"
 
 function setup() {
   canvasWidth = 1600;
@@ -38,7 +39,7 @@ function draw() {
     rect(width/2, height/2, 900, 900);
 
     const options = { method: 'GET'}
-    const response = await fetch('/data/'+ localStorage.getItem("group")+'/',options);
+    const response = await fetch(addr + localStorage.getItem("group")+'/',options);
     console.log(localStorage.getItem("group"))
     const data = await response.json();
     console.log(data)

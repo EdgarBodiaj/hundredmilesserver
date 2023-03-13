@@ -23,6 +23,7 @@
             const form = document.getElementById("form");
             const tix = document.getElementById("tix");
             const color = document.getElementById("color");
+            const addr = "https://future-festivals.mrl.nottingham.ac.uk/100miles/data/"
             localStorage.clear();
 
             init()
@@ -30,7 +31,7 @@
                 const options = {
                 method: 'GET'
             };
-            const response = await fetch('/data/latest/',options);
+            const response = await fetch( addr + 'latest/',options);
             const data = await response.json();
             localStorage.setItem('group', data.group + 1 )
             document.getElementById('groupInfo').innerHTML = "Current Group ID is : " + localStorage.getItem("group")
