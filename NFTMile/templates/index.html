@@ -33,8 +33,9 @@
     //Radii definitions
     const diameter = 160934;
     const mileseg = 16093.4;
-    const r0 = mileseg/2;
-    const r1 = diameter - mileseg * 9;
+    const mile = 1609.34;
+    const r0 = mile * 3;
+    const r1 = mileseg;
     const r2 = diameter - mileseg * 8;
     const r3 = diameter - mileseg * 7;
     const r4 = diameter - mileseg * 6;
@@ -98,15 +99,15 @@
       L.marker(e.latlng)
         .addTo(map);
       if (n){
-        if (c0){
-          console.log('inside 5 mile radius');
+        if (c1){
+          console.log('inside 3-10 mile radius');
           radius = 80;
           color = "#88FA4E"; 
           data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
         }
 
-        else if (c1){
-          console.log('inside 10 mile radius');
+        else if (c0){
+          console.log('inside 3 mile radius');
           radius = 1300;
           color = col;
           data = {group:grpNum,lat:e.latlng.lat, lon:e.latlng.lng, color, radius, ang};
